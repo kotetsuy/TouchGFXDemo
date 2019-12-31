@@ -23,7 +23,6 @@ limitations under the License.
 #include "main.h" // Hardware setting
 
 // This function is for compatible HiLetgo ILI9341
-// I refer to http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807
 
 typedef enum {
 	ROTATE_0,
@@ -37,7 +36,9 @@ typedef struct {
 	uint16_t height;
 } LCD_Window_t;
 
-static SPI_HandleTypeDef *lcd_hspi;
+extern void Error_Handler(void);
+extern SPI_HandleTypeDef hspi1;
+
 static LCD_Window_t lcd_window;
 
 static void LCD_WR_REG(uint8_t data);
@@ -53,14 +54,13 @@ static void LED_L(void);
 static void LED_H(void);
 
 // Initialization
-void ILI9341_Init(SPI_HandleTypeDef *hspi)
+void ILI9341_Init(void)
 {
-	lcd_hspi = hspi;
-	RESET_L();
-	HAL_Delay(100);
-	RESET_H();
-	HAL_Delay(50);
+	ILI9341_Reset();
+	ILI9341_SoftReset();
 
+#if 0
+	// I refer to http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807
 	LCD_WR_REG(0xCF);
 	LCD_WR_DATA(0x00);
 	LCD_WR_DATA(0xC9); //C1
@@ -155,8 +155,118 @@ void ILI9341_Init(SPI_HandleTypeDef *hspi)
 	LCD_WR_REG(0x29); //display on
 
 	LCD_direction(ROTATE_90);
-	LED_H();
+	//LED_H();
+#else
+	// I refer https://github.com/dtnghia2206/TFTLCD/blob/master/TFTLCD/ILI9341/ILI9341_Driver.c
+	/* Power Control A */
+	LCD_WR_REG(0xCB);
+	LCD_WR_DATA(0x39);
+	LCD_WR_DATA(0x2C);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0x34);
+	LCD_WR_DATA(0x02);
+	/* Power Control B */
+	LCD_WR_REG(0xCF);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0xC1);
+	LCD_WR_DATA(0x30);
+	/* Driver timing control A */
+	LCD_WR_REG(0xE8);
+	LCD_WR_DATA(0x85);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0x78);
+	/* Driver timing control B */
+	LCD_WR_REG(0xEA);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0x00);
+	/* Power on Sequence control */
+	LCD_WR_REG(0xED);
+	LCD_WR_DATA(0x64);
+	LCD_WR_DATA(0x03);
+	LCD_WR_DATA(0x12);
+	LCD_WR_DATA(0x81);
+	/* Pump ratio control */
+	LCD_WR_REG(0xF7);
+	LCD_WR_DATA(0x20);
+	/* Power Control 1 */
+	LCD_WR_REG(0xC0);
+	LCD_WR_DATA(0x10);
+	/* Power Control 2 */
+	LCD_WR_REG(0xC1);
+	LCD_WR_DATA(0x10);
+	/* VCOM Control 1 */
+	LCD_WR_REG(0xC5);
+	LCD_WR_DATA(0x3E);
+	LCD_WR_DATA(0x28);
+	/* VCOM Control 2 */
+	LCD_WR_REG(0xC7);
+	LCD_WR_DATA(0x86);
+	/* VCOM Control 2 */
+	LCD_WR_REG(0x36);
+	LCD_WR_DATA(0x48);
+	/* Pixel Format Set */
+	LCD_WR_REG(0x3A);
+	LCD_WR_DATA(0x55);    //16bit
+	LCD_WR_REG(0xB1);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0x18);
+	/* Display Function Control */
+	LCD_WR_REG(0xB6);
+	LCD_WR_DATA(0x08);
+	LCD_WR_DATA(0x82);
+	LCD_WR_DATA(0x27);
+	/* 3GAMMA FUNCTION DISABLE */
+	LCD_WR_REG(0xF2);
+	LCD_WR_DATA(0x00);
+	/* GAMMA CURVE SELECTED */
+	LCD_WR_REG(0x26); //Gamma set
+	LCD_WR_DATA(0x01); 	//Gamma Curve (G2.2)
+	//Positive Gamma  Correction
+	LCD_WR_REG(0xE0);
+	LCD_WR_DATA(0x0F);
+	LCD_WR_DATA(0x31);
+	LCD_WR_DATA(0x2B);
+	LCD_WR_DATA(0x0C);
+	LCD_WR_DATA(0x0E);
+	LCD_WR_DATA(0x08);
+	LCD_WR_DATA(0x4E);
+	LCD_WR_DATA(0xF1);
+	LCD_WR_DATA(0x37);
+	LCD_WR_DATA(0x07);
+	LCD_WR_DATA(0x10);
+	LCD_WR_DATA(0x03);
+	LCD_WR_DATA(0x0E);
+	LCD_WR_DATA(0x09);
+	LCD_WR_DATA(0x00);
+	//Negative Gamma  Correction
+	LCD_WR_REG(0xE1);
+	LCD_WR_DATA(0x00);
+	LCD_WR_DATA(0x0E);
+	LCD_WR_DATA(0x14);
+	LCD_WR_DATA(0x03);
+	LCD_WR_DATA(0x11);
+	LCD_WR_DATA(0x07);
+	LCD_WR_DATA(0x31);
+	LCD_WR_DATA(0xC1);
+	LCD_WR_DATA(0x48);
+	LCD_WR_DATA(0x08);
+	LCD_WR_DATA(0x0F);
+	LCD_WR_DATA(0x0C);
+	LCD_WR_DATA(0x31);
+	LCD_WR_DATA(0x36);
+	LCD_WR_DATA(0x0F);
+	//EXIT SLEEP
+	LCD_WR_REG(0x11);
 
+	HAL_Delay(120);
+
+	//TURN ON DISPLAY
+	LCD_WR_REG(0x29);
+	LCD_WR_DATA(0x2C);
+
+	LCD_direction(ROTATE_90);
+	//LED_H();
+#endif
 }
 
 void ILI9341_SetWindow(uint16_t start_x, uint16_t start_y, uint16_t end_x, uint16_t end_y)
@@ -190,12 +300,12 @@ void ILI9341_Fill(uint16_t color)
 	// Enable to access GRAM
 	LCD_WR_REG(0x2c);
 
-	CS_L();
+	//CS_L();
 	DC_H();
 	for (int i = 0; i < lcd_window.height; i++) {
-		HAL_SPI_Transmit(lcd_hspi, data, lcd_window.width*2, 1000);
+		HAL_SPI_Transmit(&hspi1, data, lcd_window.width*2, 1000);
 	}
-	CS_H();
+	//CS_H();
 
 }
 
@@ -206,7 +316,7 @@ void ILI9341_WritePixel(uint16_t color)
 	data[1] = color;
 	CS_L();
 	DC_H();
-	HAL_SPI_Transmit(lcd_hspi, data, 2, 1000);
+	HAL_SPI_Transmit(&hspi1, data, 2, 1000);
 	CS_H();
 }
 
@@ -215,21 +325,55 @@ void ILI9341_Reset(void)
 	RESET_L();
 	HAL_Delay(100);
 	RESET_H();
-	HAL_Delay(50);
+	HAL_Delay(100);
+	CS_L();
+	LED_H();
+}
+
+void ILI9341_SoftReset(void)
+{
+	uint8_t cmd;
+	cmd = 0x01; //Software reset
+	DC_L();
+	if (HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000) != HAL_OK) {
+		Error_Handler();
+	}
 }
 
 void ILI9341_ReadID(uint8_t *data)
 {
 	uint8_t cmd;
+	cmd = 0x00; //NOP
+	DC_L();
+//	CS_L();
+	if (HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
+	DC_H();
+//	CS_L();
+	if (HAL_SPI_Receive(&hspi1, data, 2, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
+}
+
+void ILI9341_ReadManifactureID(uint8_t *data)
+{
+	uint8_t cmd;
 	cmd = 0x04; //Read Display Identification Information
 	DC_L();
-	CS_L();
-	HAL_SPI_Transmit(lcd_hspi, &cmd, 1, 1000);
-	CS_H();
+//	CS_L();
+	if (HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
 	DC_H();
-	CS_L();
-	HAL_SPI_Receive(lcd_hspi, data, 4, 1000);
-	CS_H();
+//	CS_L();
+	if (HAL_SPI_Receive(&hspi1, data, 4, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
 }
 
 void ILI9341_ReadDisplayStatus(uint8_t *data)
@@ -237,33 +381,37 @@ void ILI9341_ReadDisplayStatus(uint8_t *data)
 	uint8_t cmd;
 	cmd = 0x09; //Read Display Status
 	DC_L();
-	CS_L();
-	HAL_SPI_Transmit(lcd_hspi, &cmd, 1, 1000);
-	CS_H();
+//	CS_L();
+	if (HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
 	DC_H();
-	CS_L();
-	HAL_SPI_Receive(lcd_hspi, data, 5, 1000);
-	CS_H();
+//	CS_L();
+	if (HAL_SPI_Receive(&hspi1, data, 5, 1000) != HAL_OK) {
+		Error_Handler();
+	}
+//	CS_H();
 }
 
 static void LCD_WR_REG(uint8_t data)
 {
-	CS_L();
+	//CS_L();
 	DC_L();
-	if (HAL_SPI_Transmit(lcd_hspi, &data, 1, 1000) != HAL_OK) {
+	if (HAL_SPI_Transmit(&hspi1, &data, 1, 1000) != HAL_OK) {
 		Error_Handler();
 	}
-	CS_H();
+	//CS_H();
 }
 
 static void LCD_WR_DATA(uint8_t data)
 {
-	CS_L();
+	//CS_L();
 	DC_H();
-	if (HAL_SPI_Transmit(lcd_hspi, &data, 1, 1000) != HAL_OK) {
+	if (HAL_SPI_Transmit(&hspi1, &data, 1, 1000) != HAL_OK) {
 		Error_Handler();
 	}
-	CS_H();
+	//CS_H();
 }
 
 static void LCD_direction(LCD_Horizontal_t direction)

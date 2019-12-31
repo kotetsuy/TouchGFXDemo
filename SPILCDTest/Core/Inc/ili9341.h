@@ -48,14 +48,16 @@ limitations under the License.
 #define LBBLUE          0X2B12
 
 
-void ILI9341_Init(SPI_HandleTypeDef *hspi);
+void ILI9341_Init(void);
 void ILI9341_SetWindow(uint16_t start_x, uint16_t start_y, uint16_t end_x, uint16_t end_y);
 void ILI9341_Fill(uint16_t color);
 void ILI9341_WritePixel(uint16_t color);
 
 // For debug
 void ILI9341_Reset(void);
+void ILI9341_SoftReset(void);
 void ILI9341_ReadID(uint8_t *data);
+void ILI9341_ReadManifactureID(uint8_t *data);
 void ILI9341_ReadDisplayStatus(uint8_t *data);
 
 

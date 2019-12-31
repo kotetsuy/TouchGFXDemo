@@ -57,7 +57,8 @@ static void MX_SPI1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-__IO uint8_t data[5];
+#define CLSIZ 5
+uint16_t color[CLSIZ] = {BLACK, BLUE, RED, GREEN, WHITE};
 /* USER CODE END 0 */
 
 /**
@@ -67,7 +68,7 @@ __IO uint8_t data[5];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	uint32_t idx = 0;
   /* USER CODE END 1 */
   
 
@@ -91,12 +92,7 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  //HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-  ILI9341_Init(&hspi1);
-  ILI9341_Fill(BLUE);
-  //ILI9341_Reset();
-  //ILI9341_ReadID((uint8_t *)data);
-  //ILI9341_ReadDisplayStatus((uint8_t *)data);
+  ILI9341_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,6 +102,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  ILI9341_Fill(color[idx++]);
+	  idx = (idx >= CLSIZ) ? 0 : idx;
+	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
