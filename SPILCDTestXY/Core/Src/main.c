@@ -105,7 +105,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   ILI9341_Init();
   GUI_FillScreen(BLACK);
-  for (uint16_t xy = 0; xy < GUI_WIDTH; xy++) {
+  for (uint16_t xy = 0; xy < GUI_HEIGHT; xy++) {
 	  GUI_WritePixel(xy, xy, WHITE);
   }
   /* USER CODE END 2 */

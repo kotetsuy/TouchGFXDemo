@@ -196,7 +196,9 @@ void ILI9341_WritePixel(uint16_t x, uint16_t y, uint16_t color)
 	uint8_t data[2];
 	data[0] = color >> 8;
 	data[1] = color;
-	ILI9341_SetWindow(x, x+1, y, y+1);
+	ILI9341_SetWindow(x, x, y, y);
+	// Enable to access GRAM
+	LCD_WR_REG(0x2c);
 	DC_H();
 	if (HAL_SPI_Transmit(&hspi1, data, 2, 1000) != HAL_OK) {
 		Error_Handler();
