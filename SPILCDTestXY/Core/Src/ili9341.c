@@ -169,7 +169,11 @@ void ILI9341_Init(void)
 	LCD_WR_REG(0x29);
 	LCD_WR_DATA(0x2C);
 
-	LCD_direction(ROTATE_90);
+	LCD_direction(ROTATE_270);
+
+	//LCD_WR_REG(0xb);
+	//LCD_WR_DATA(0);
+	//LCD_WR_DATA(0x40);
 }
 
 void ILI9341_SetWindow(uint16_t start_x, uint16_t start_y, uint16_t end_x, uint16_t end_y)
@@ -290,18 +294,22 @@ static void LCD_direction(LCD_Horizontal_t direction)
 	switch (direction) {
 	case ROTATE_0:
 		LCD_WR_REG(0x36);
-		LCD_WR_DATA((1<<3)|(0<<6)|(0<<7));
+		//LCD_WR_DATA((1<<3)|(0<<6)|(0<<7));
+		LCD_WR_DATA(0x48);
 		break;
 	case ROTATE_90:
 		LCD_WR_REG(0x36);
-		LCD_WR_DATA((1<<3)|(0<<7)|(1<<6)|(1<<5));
+		//LCD_WR_DATA((1<<3)|(0<<7)|(1<<6)|(1<<5));
+		LCD_WR_DATA(0x28);
 		break;
 	case ROTATE_180:
 		LCD_WR_REG(0x36);
-		LCD_WR_DATA((1<<3)|(1<<6)|(1<<7));
+		//LCD_WR_DATA((1<<3)|(1<<6)|(1<<7));
+		LCD_WR_DATA(0x88);
 	case ROTATE_270:
 		LCD_WR_REG(0x36);
-		LCD_WR_DATA((1<<3)|(1<<7)|(1<<5));
+		//LCD_WR_DATA((1<<3)|(1<<7)|(1<<5));
+		LCD_WR_DATA(0xE8);
 		break;
 	}
 }
