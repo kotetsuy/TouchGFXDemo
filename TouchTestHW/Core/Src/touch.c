@@ -58,6 +58,7 @@ static void XPT2046_ResetCS(void)
 
 static void XPT2046_Write_Byte(uint8_t num)
 {
+#if 0
 	hspi3.Instance = SPI3;
 	hspi3.Init.Mode = SPI_MODE_MASTER;
 	hspi3.Init.Direction = SPI_DIRECTION_2LINES;
@@ -75,10 +76,18 @@ static void XPT2046_Write_Byte(uint8_t num)
 	{
 		Error_Handler();
 	}
+#else
+	hspi3.Instance->CR2 &= ~(SPI_DATASIZE_16BIT); // Set 8 bit mode
+	__HAL_SPI_ENABLE(&hspi3);
+#endif
 	if (HAL_SPI_Transmit(&hspi3, &num, 1, 1000) != HAL_OK) {
 		Error_Handler();
 	}
+#if 0
 	HAL_SPI_DeInit(&hspi3);
+#else
+	__HAL_SPI_DISABLE(&hspi3);
+#endif
 }
 
 static uint16_t XPT2046_Read_AD(uint8_t CMD)
@@ -90,6 +99,7 @@ static uint16_t XPT2046_Read_AD(uint8_t CMD)
 	XPT2046_Write_Byte(CMD);
 	HAL_Delay(6);
 
+#if 0
 	hspi3.Instance = SPI3;
 	hspi3.Init.Mode = SPI_MODE_MASTER;
 	hspi3.Init.Direction = SPI_DIRECTION_2LINES;
@@ -107,11 +117,19 @@ static uint16_t XPT2046_Read_AD(uint8_t CMD)
 	{
 		Error_Handler();
 	}
+#else
+	hspi3.Instance->CR2 |= SPI_DATASIZE_16BIT; // Set 16 bit mode
+	__HAL_SPI_ENABLE(&hspi3);
+#endif
 	if (HAL_SPI_Receive(&hspi3, num, 1, 1000) != HAL_OK) {
 		Error_Handler();
 	}
-	T_CS_ON;
+#if 0
 	HAL_SPI_DeInit(&hspi3);
+#else
+	__HAL_SPI_DISABLE(&hspi3);
+#endif
+	T_CS_ON;
 
 	ret = num[0] << 8 | num[1];
 	ret >>= 3;

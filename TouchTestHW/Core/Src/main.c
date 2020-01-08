@@ -92,9 +92,9 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  __HAL_RCC_SPI3_CLK_ENABLE();
+  //__HAL_RCC_SPI3_CLK_ENABLE();
 
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+  //__HAL_RCC_GPIOB_CLK_ENABLE();
   /**SPI3 GPIO Configuration
   PB3     ------> SPI3_SCK
   PB4     ------> SPI3_MISO
@@ -115,7 +115,8 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_SPI_DeInit(&hspi3);
+  //HAL_SPI_DeInit(&hspi3);
+  __HAL_SPI_DISABLE(&hspi3);
   x = y = 4095;
 
   /* USER CODE END 2 */

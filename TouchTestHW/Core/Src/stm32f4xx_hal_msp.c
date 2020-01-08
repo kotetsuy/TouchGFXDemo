@@ -89,7 +89,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   if(hspi->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspInit 0 */
-#if 0
+#if 1
   /* USER CODE END SPI3_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_SPI3_CLK_ENABLE();
@@ -125,7 +125,7 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
   if(hspi->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspDeInit 0 */
-#if 0
+#if 1
   /* USER CODE END SPI3_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_SPI3_CLK_DISABLE();
