@@ -199,6 +199,7 @@ void XPT2046_Update(uint16_t *x, uint16_t *y)
 	}
 	data[4] = XPT2046_Read_AD(0x91);
 	data[5] = XPT2046_Read_AD(0xd0);
+	ptime = HAL_GetTick();
 	if (z < 0) z = 0;
 	if (z < Z_THRESHOLD) { //	if ( !touched ) {
 		if (z < Z_THRESHOLD_INT) { //	if ( !touched ) {
@@ -209,7 +210,6 @@ void XPT2046_Update(uint16_t *x, uint16_t *y)
 	int16_t intx = besttwoavg( data[0], data[2], data[4] );
 	int16_t inty = besttwoavg( data[1], data[3], data[5] );
 	if (z >= Z_THRESHOLD) {
-		ptime = HAL_GetTick();
 		*x = intx;
 		*y = inty;
 	}
@@ -217,11 +217,15 @@ void XPT2046_Update(uint16_t *x, uint16_t *y)
 
 uint8_t XPT2046_Scan(void)
 {
+#if 0
 	if (T_IRQ == GPIO_PIN_RESET) {
 		status = TP_PRES_DOWN;
 	} else {
 		status &= ~TP_PRES_DOWN;
 	}
+#else
+	status = TP_PRES_DOWN;
+#endif
 	return status & TP_PRES_DOWN;
 }
 
