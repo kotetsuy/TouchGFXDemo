@@ -161,19 +161,12 @@ static uint8_t XPT2046_Read_XY2(uint16_t *x, uint16_t *y)
 uint8_t XPT2046_Scan(void)
 {
 	if (T_IRQ == GPIO_PIN_RESET) {
-#if 0
-		if (XPT2046_Read_XY2(&x, &y) != 0) {
-			x = y = 0;
-		}
-#endif
 		if ((status & TP_PRES_DOWN) == 0) {
 			status = TP_PRES_DOWN | TP_CATH_PRES;
 		}
 	} else {
 		if (status & TP_PRES_DOWN) {
 			status &= ~TP_PRES_DOWN;
-		} else {
-			x = y = 0;
 		}
 	}
 	return status & TP_PRES_DOWN;
@@ -186,7 +179,7 @@ uint8_t XPT2046_GetStatus(void)
 
 uint8_t XPT2046_IsReasonable(uint16_t x, uint16_t y)
 {
-	if (x >= 350 && x <= 3800 && y >= 350 && y <= 3600) {
+	if (x >= XPT_XMIN && x <= XPT_XMAX && y >= XPT_YMIN && y <= XPT_YMAX) {
 		return 1;
 	}
 	return 0;

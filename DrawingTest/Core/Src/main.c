@@ -132,21 +132,10 @@ int main(void)
 		  if (XPT2046_IsReasonable(x, y)) {
 			  uint8_t str[16];
 			  GUI_NormalizeXY((int16_t *)&x, (int16_t *)&y);
-#if 1
 			  GUI_WritePixel(x, y, WHITE);
-			  //GUI_UpdateScreen();
-#else
-			  static uint16_t i = 0;
-			  GUI_WritePixel(i, i, WHITE);
-			  //GUI_UpdateScreen();
-			  i++;
-			  i = (i >= GUI_HEIGHT) ? 0 : i;
-#endif
 			  sprintf((char *)str, "%d %d\n", x, y);
 			  HAL_UART_Transmit(&huart3, str, strlen((char *)str), 1000);
 		  }
-	  } else {
-		  y = x = 0;
 	  }
   }
   /* USER CODE END 3 */
