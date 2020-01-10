@@ -42,13 +42,16 @@ SOFTWARE.
 #define READ_TIMES 	5
 #define LOST_VAL 	1
 #define ERR_RANGE 50
+#define Z_THRESHOLD     400
+#define Z_THRESHOLD_INT	75
+#define MSEC_THRESHOLD  3
 
 extern SPI_HandleTypeDef hspi3;
 extern void Error_Handler(void);
 
 static uint8_t status = 0;
-static uint16_t x = 0;
-static uint16_t y = 0;
+//static uint16_t x = 0;
+//static uint16_t y = 0;
 
 static GPIO_PinState XPT2046_ReadIRQ(void)
 {
@@ -158,16 +161,66 @@ static uint8_t XPT2046_Read_XY2(uint16_t *x, uint16_t *y)
     }
 }
 
+static int16_t besttwoavg( int16_t x , int16_t y , int16_t z ) {
+  int16_t da, db, dc;
+  int16_t reta = 0;
+  if ( x > y ) da = x - y; else da = y - x;
+  if ( x > z ) db = x - z; else db = z - x;
+  if ( z > y ) dc = z - y; else dc = y - z;
+
+  if ( da <= db && da <= dc ) reta = (x + y) >> 1;
+  else if ( db <= da && db <= dc ) reta = (x + z) >> 1;
+  else reta = (y + z) >> 1;   //    else if ( dc <= da && dc <= db ) reta = (x + y) >> 1;
+
+  return (reta);
+}
+
+void XPT2046_Update(uint16_t *x, uint16_t *y)
+{
+	int16_t data[6];
+	static uint32_t ptime = 0;
+
+	if (HAL_GetTick() - ptime < MSEC_THRESHOLD) {
+		return;
+	}
+
+	int16_t z1 = XPT2046_Read_AD(0xb1); // z1
+	int32_t z = z1 + 4095;
+	int16_t z2 = XPT2046_Read_AD(0xc1); // z2
+	z -= z2;
+	if (z >= Z_THRESHOLD) {
+		XPT2046_Read_AD(0x91);  // dummy 1st X measure
+		data[0] = XPT2046_Read_AD(0x91);
+		data[1] = XPT2046_Read_AD(0xd1);
+		data[2] = XPT2046_Read_AD(0x91);
+		data[3] = XPT2046_Read_AD(0xd1);
+	} else {
+		data[0] = data[1] = data[2] = data[3] = 0;
+	}
+	data[4] = XPT2046_Read_AD(0x91);
+	data[5] = XPT2046_Read_AD(0xd0);
+	if (z < 0) z = 0;
+	if (z < Z_THRESHOLD) { //	if ( !touched ) {
+		if (z < Z_THRESHOLD_INT) { //	if ( !touched ) {
+			status &= ~TP_PRES_DOWN;
+		}
+		return;
+	}
+	int16_t intx = besttwoavg( data[0], data[2], data[4] );
+	int16_t inty = besttwoavg( data[1], data[3], data[5] );
+	if (z >= Z_THRESHOLD) {
+		ptime = HAL_GetTick();
+		*x = intx;
+		*y = inty;
+	}
+}
+
 uint8_t XPT2046_Scan(void)
 {
 	if (T_IRQ == GPIO_PIN_RESET) {
-		if ((status & TP_PRES_DOWN) == 0) {
-			status = TP_PRES_DOWN | TP_CATH_PRES;
-		}
+		status = TP_PRES_DOWN;
 	} else {
-		if (status & TP_PRES_DOWN) {
-			status &= ~TP_PRES_DOWN;
-		}
+		status &= ~TP_PRES_DOWN;
 	}
 	return status & TP_PRES_DOWN;
 }
