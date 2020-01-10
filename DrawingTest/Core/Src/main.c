@@ -124,22 +124,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  XPT2046_Scan();
-	  if (XPT2046_GetStatus() & TP_PRES_DOWN) {
-#if 0
-		  // For rotate 90
-		  y = XPT2046_Read_XOY(CMD_RDX);
-		  x = XPT2046_Read_XOY(CMD_RDY);
-#else
-		  XPT2046_Update(&x, &y);
-#endif
-		  if (XPT2046_IsReasonable(x, y)) {
-			  uint8_t str[16];
-			  GUI_NormalizeXY((int16_t *)&x, (int16_t *)&y);
-			  GUI_WritePixel(x, y, WHITE);
-			  sprintf((char *)str, "%d %d\n", x, y);
-			  HAL_UART_Transmit(&huart3, str, strlen((char *)str), 1000);
-		  }
+	  XPT2046_Update(&x, &y);
+	  if (XPT2046_IsReasonable(x, y)) {
+		  uint8_t str[16];
+		  GUI_NormalizeXY((int16_t *)&x, (int16_t *)&y);
+		  GUI_WritePixel(x, y, WHITE);
+		  sprintf((char *)str, "%d %d\n", x, y);
+		  HAL_UART_Transmit(&huart3, str, strlen((char *)str), 1000);
 	  }
   }
   /* USER CODE END 3 */

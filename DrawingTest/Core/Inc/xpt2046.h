@@ -45,10 +45,7 @@ SOFTWARE.
 #define XPT_WIDTH (XPT_XMAX - XPT_XMIN)
 #define XPT_HEIGHT (XPT_YMAX - XPT_YMIN)
 
-uint16_t XPT2046_Read_XOY(uint8_t xy);
-uint8_t XPT2046_Scan(void);
-uint8_t XPT2046_GetStatus(void);
-uint8_t XPT2046_IsReasonable(uint16_t x, uint16_t y);
 void XPT2046_Update(uint16_t *x, uint16_t *y);
+uint8_t XPT2046_IsReasonable(uint16_t x, uint16_t y);
 
 #endif /* INC_TOUCH_H_ */

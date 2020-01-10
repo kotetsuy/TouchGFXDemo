@@ -5,32 +5,29 @@
  *      Author: Kotetsu Yamamoto
  *      Copyright [Kotetsu Yamamoto]
 
-I refer https://github.com/dtnghia2206/TFTLCD/blob/master/TFTLCD/Touch/Touch.c
+I refer https://github.com/PaulStoffregen/XPT2046_Touchscreen/blob/master/XPT2046_Touchscreen.cpp
 
 from Original source:
 
-MIT License
-
-Copyright (c) 2019 NghiaDT
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
+ * Copyright (c) 2015, Paul Stoffregen, paul@pjrc.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice, development funding notice, and this permission
+ * notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 #include "xpt2046.h"
@@ -48,15 +45,6 @@ SOFTWARE.
 
 extern SPI_HandleTypeDef hspi3;
 extern void Error_Handler(void);
-
-static uint8_t status = 0;
-//static uint16_t x = 0;
-//static uint16_t y = 0;
-
-static GPIO_PinState XPT2046_ReadIRQ(void)
-{
-	return HAL_GPIO_ReadPin(T_IRQ_GPIO_Port, T_IRQ_Pin);
-}
 
 static void XPT2046_SetCS(void)
 {
@@ -102,65 +90,6 @@ static uint16_t XPT2046_Read_AD(uint8_t CMD)
 	return ret;
 }
 
-uint16_t XPT2046_Read_XOY(uint8_t xy)
-{
-	uint16_t i, j;
-	uint16_t buf[READ_TIMES];
-	uint16_t sum = 0;
-	uint16_t temp;
-	for(i=0;i<READ_TIMES;i++) buf[i] = XPT2046_Read_AD(xy);
-	for(i=0;i<READ_TIMES-1; i++)
-	{
-		for(j = i+1; j < READ_TIMES; j++)
-		{
-			if(buf[i] > buf[j])
-			{
-				temp = buf[i];
-				buf[i] = buf[j];
-				buf[j] = temp;
-			}
-		}
-	}
-	sum = 0;
-	for(i = LOST_VAL; i < READ_TIMES - LOST_VAL; i++) sum += buf[i];
-	temp = sum / (READ_TIMES - 2 * LOST_VAL);
-	return temp;
-}
-
-static uint8_t XPT2046_Read_XY(uint16_t *x, uint16_t *y)
-{
-	uint16_t xtemp,ytemp;
-	xtemp = XPT2046_Read_XOY(CMD_RDX);
-	ytemp = XPT2046_Read_XOY(CMD_RDY);
-
-	*x = xtemp;
-	*y = ytemp;
-	return 1;
-}
-
-static uint8_t XPT2046_Read_XY2(uint16_t *x, uint16_t *y)
-{
-	uint16_t x1,y1;
- 	uint16_t x2,y2;
- 	uint8_t flag;
-    flag = XPT2046_Read_XY(&x1 ,&y1);
-    if(flag == 0) {
-    	return 0;
-    }
-    flag = XPT2046_Read_XY(&x2, &y2);
-    if(flag == 0) {
-    	return 0;
-    }
-    if(((x2 <= x1 && x1 < x2 + ERR_RANGE) || (x1 <= x2 && x2 < x1 + ERR_RANGE))
-    && ((y2 <= y1 && y1 < y2 + ERR_RANGE) || (y1 <= y2 && y2 < y1 + ERR_RANGE))) {
-        *x = (x1 + x2) / 2;
-        *y = (y1 + y2) / 2;
-        return 1;
-    } else {
-    	return 0;
-    }
-}
-
 static int16_t besttwoavg( int16_t x , int16_t y , int16_t z ) {
   int16_t da, db, dc;
   int16_t reta = 0;
@@ -201,37 +130,12 @@ void XPT2046_Update(uint16_t *x, uint16_t *y)
 	data[5] = XPT2046_Read_AD(0xd0);
 	ptime = HAL_GetTick();
 	if (z < 0) z = 0;
-	if (z < Z_THRESHOLD) { //	if ( !touched ) {
-		if (z < Z_THRESHOLD_INT) { //	if ( !touched ) {
-			status &= ~TP_PRES_DOWN;
-		}
-		return;
-	}
 	int16_t intx = besttwoavg( data[0], data[2], data[4] );
 	int16_t inty = besttwoavg( data[1], data[3], data[5] );
 	if (z >= Z_THRESHOLD) {
 		*x = intx;
 		*y = inty;
 	}
-}
-
-uint8_t XPT2046_Scan(void)
-{
-#if 0
-	if (T_IRQ == GPIO_PIN_RESET) {
-		status = TP_PRES_DOWN;
-	} else {
-		status &= ~TP_PRES_DOWN;
-	}
-#else
-	status = TP_PRES_DOWN;
-#endif
-	return status & TP_PRES_DOWN;
-}
-
-uint8_t XPT2046_GetStatus(void)
-{
-	return status;
 }
 
 uint8_t XPT2046_IsReasonable(uint16_t x, uint16_t y)
