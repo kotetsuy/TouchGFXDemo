@@ -1,0 +1,90 @@
+Configuration	DrawingTest
+STM32CubeMX 	5.5.0
+Date	01/13/2020
+MCU	STM32F412ZGTx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SPI3	Full-Duplex Master	SPI3_MISO	PB4
+SPI3	Full-Duplex Master	SPI3_MOSI	PB5
+SPI3	Full-Duplex Master	SPI3_SCK	PB3
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART3	Asynchronous	USART3_RX	PD9
+USART3	Asynchronous	USART3_TX	PD8
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+41	PA5	SPI1_SCK	
+42	PA6	SPI1_MISO	
+43	PA7	SPI1_MOSI	
+60	PE9	GPIO_Output	T_CS
+66	PE13	GPIO_Input	T_IRQ
+76	PB15	GPIO_Output	RESET
+77	PD8	USART3_TX	
+78	PD9	USART3_RX	
+85	PD14	GPIO_Output	SPI1_NSS
+96	PC6	GPIO_Output	DC
+133	PB3	SPI3_SCK	
+134	PB4	SPI3_MISO	
+135	PB5	SPI3_MOSI	
+139	PB8	GPIO_Output	LED
+PERIPHERALS	MODES	FUNCTIONS	PINS
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SPI3	Full-Duplex Master	SPI3_MISO	PB4
+SPI3	Full-Duplex Master	SPI3_MOSI	PB5
+SPI3	Full-Duplex Master	SPI3_SCK	PB3
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART3	Asynchronous	USART3_RX	PD9
+USART3	Asynchronous	USART3_TX	PD8
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+41	PA5	SPI1_SCK	
+42	PA6	SPI1_MISO	
+43	PA7	SPI1_MOSI	
+60	PE9	GPIO_Output	T_CS
+66	PE13	GPIO_Input	T_IRQ
+76	PB15	GPIO_Output	RESET
+77	PD8	USART3_TX	
+78	PD9	USART3_RX	
+85	PD14	GPIO_Output	SPI1_NSS
+96	PC6	GPIO_Output	DC
+133	PB3	SPI3_SCK	
+134	PB4	SPI3_MISO	
+135	PB5	SPI3_MOSI	
+139	PB8	GPIO_Output	LED
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : DrawingTest
+Project Folder : D:\ST\TouchGFXDemo\DrawingTest
+Toolchain / IDE : STM32CubeIDE
+Firmware Package Name and Version : STM32Cube FW_F4 V1.24.2
+
+
+Code Generation Settings : 
+STM32Cube MCU packages and embedded software packs : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+
