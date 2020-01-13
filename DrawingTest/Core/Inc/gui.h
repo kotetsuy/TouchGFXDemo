@@ -37,6 +37,7 @@ SOFTWARE.
 
 void GUI_FillScreen(uint16_t cl);
 void GUI_WritePixel(uint16_t x, uint16_t y, uint16_t cl);
+void GUI_WriteSquare(uint16_t x, uint16_t y, uint16_t cl);
 void GUI_UpdateScreen(void);
 void GUI_NormalizeXY(int16_t *x, int16_t *y);
 

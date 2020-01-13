@@ -128,7 +128,7 @@ int main(void)
 	  if (XPT2046_IsReasonable(x, y)) {
 		  uint8_t str[16];
 		  GUI_NormalizeXY((int16_t *)&x, (int16_t *)&y);
-		  GUI_WritePixel(x, y, WHITE);
+		  GUI_WriteSquare(x, y, WHITE);
 		  sprintf((char *)str, "%d %d\n", x, y);
 		  HAL_UART_Transmit(&huart3, str, strlen((char *)str), 1000);
 	  }

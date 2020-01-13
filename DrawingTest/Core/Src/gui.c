@@ -54,6 +54,32 @@ void GUI_WritePixel(uint16_t x, uint16_t y, uint16_t cl)
 	ILI9341_WritePixel(x,y,cl);
 }
 
+void GUI_WriteSquare(uint16_t x, uint16_t y, uint16_t cl)
+{
+	static uint8_t bmp[5*5*2];
+	int16_t x1, y1, x2, y2;
+	for (int32_t i = 0; i < 25; i++) {
+		bmp[i*2] = cl >>8;
+		bmp[i*2] = cl;
+	}
+	x1 = x - 2;
+	y1 = y - 2;
+	x1 = (x1 < 0) ? 0 : x1;
+	y1 = (y1 < 0) ? 0 : y1;
+	x2 = x + 2;
+	y2 = y + 2;
+	x2 = (x2 >= GUI_WIDTH) ? GUI_WIDTH-1 : x2;
+	y2 = (y2 >= GUI_HEIGHT) ? GUI_HEIGHT-1 : y2;
+	for (int32_t i = y1; i <= y2; i++) {
+		for (int32_t j = x1; j <= x2; j++) {
+			vvram[i*GUI_WIDTH*sizeof(uint16_t) + j*sizeof(uint16_t)] = cl >> 8;
+			vvram[i*GUI_WIDTH*sizeof(uint16_t) + j*sizeof(uint16_t) + 1] = cl;
+		}
+	}
+	ILI9341_SetWindow(x1, y1, x2, y2);
+	ILI9341_DrawBitmap(x2-x1+1, y2-y1+1, bmp);
+}
+
 void GUI_UpdateScreen(void)
 {
 	// HAL_SPI_Transmit_DMA supports the translation size until 0xffff
