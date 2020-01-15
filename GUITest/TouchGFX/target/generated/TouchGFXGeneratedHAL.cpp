@@ -18,11 +18,14 @@
 #include <TouchGFXGeneratedHAL.hpp>
 #include "stm32f4xx.h"
 
+#if 0
+// Kotetsu
 namespace {
     // Use the section "TouchGFX_Framebuffer" in the linker to specify the placement of the buffer
     LOCATION_PRAGMA("TouchGFX_Framebuffer")
     uint32_t frameBuf[(320 * 240 * 2 + 3) / 4] LOCATION_ATTRIBUTE("TouchGFX_Framebuffer");
 }
+#endif
 
 void TouchGFXGeneratedHAL::initialize()
 {
@@ -30,7 +33,7 @@ void TouchGFXGeneratedHAL::initialize()
 
     registerEventListener(*(touchgfx::Application::getInstance()));
 
-    setFrameBufferStartAddresses((void*)frameBuf, (void*)0, (void*)0);
+    //setFrameBufferStartAddresses((void*)frameBuf, (void*)0, (void*)0);
     /*
      * Set whether the DMA transfers are locked to the TFT update cycle. If
      * locked, DMA transfer will not begin until the TFT controller has finished
@@ -65,7 +68,11 @@ inline uint8_t* TouchGFXGeneratedHAL::advanceFrameBufferToRect(uint8_t* fbPtr, c
 
 uint16_t* TouchGFXGeneratedHAL::getTFTFrameBuffer() const
 {
+#if 0
     return (uint16_t*)frameBuf;
+#else
+    return 0;
+#endif
 }
 
 void TouchGFXGeneratedHAL::setTFTFrameBuffer(uint16_t* adr)

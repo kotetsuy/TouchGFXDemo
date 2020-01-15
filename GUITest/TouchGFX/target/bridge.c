@@ -28,16 +28,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
  */
-#include <touchgfx/hal/HAL.hpp>
-#include "app_touchgfx.h"
-
-using namespace touchgfx;
-
 #include "main.h"
 #include "cmsis_os.h"
 #include "ili9341.h"
+#include "bridge.h"
 
-static int8_t Running;
+extern void TransferComplete();
+
+static __IO int8_t Running = 0;
 
 uint8_t isTransmittingData(void)
 {
@@ -46,10 +44,21 @@ uint8_t isTransmittingData(void)
 
 void transmitFrameBufferBlock(uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 {
+	Running = 1;
 	ILI9341_SetWindow(x, y, x+w-1, y+h-1);
 	ILI9341_DrawBitmap(w, h, pixels);
 }
 
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if (hspi->Instance == SPI1){
+		Running = 0;
+		TransferComplete();
+	}
+}
+
+
+#if 0
 void startNewTransfer(void)
 {
     FrameBufferAllocator* fba = HAL::getInstance()->getFrameBufferAllocator();
@@ -64,11 +73,4 @@ void startNewTransfer(void)
     }
 }
 
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if (hspi->Instance == SPI1){
-		Running = 0;
-		startNewTransfer();
-	}
-}
-
+#endif

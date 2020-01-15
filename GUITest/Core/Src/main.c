@@ -49,6 +49,8 @@ SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi3;
 DMA_HandleTypeDef hdma_spi1_tx;
 
+TIM_HandleTypeDef htim13;
+
 UART_HandleTypeDef huart3;
 
 osThreadId defaultTaskHandle;
@@ -63,6 +65,7 @@ static void MX_DMA_Init(void);
 static void MX_CRC_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_SPI3_Init(void);
+static void MX_TIM13_Init(void);
 static void MX_USART3_UART_Init(void);
 void StartDefaultTask(void const * argument);
 
@@ -108,6 +111,7 @@ int main(void)
   MX_CRC_Init();
   MX_SPI1_Init();
   MX_SPI3_Init();
+  MX_TIM13_Init();
   MX_USART3_UART_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
@@ -146,6 +150,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_TIM_Base_Start_IT(&htim13);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -302,6 +307,37 @@ static void MX_SPI3_Init(void)
 }
 
 /**
+  * @brief TIM13 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM13_Init(void)
+{
+
+  /* USER CODE BEGIN TIM13_Init 0 */
+
+  /* USER CODE END TIM13_Init 0 */
+
+  /* USER CODE BEGIN TIM13_Init 1 */
+
+  /* USER CODE END TIM13_Init 1 */
+  htim13.Instance = TIM13;
+  htim13.Init.Prescaler = 49999;
+  htim13.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim13.Init.Period = 199;
+  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim13.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim13) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM13_Init 2 */
+
+  /* USER CODE END TIM13_Init 2 */
+
+}
+
+/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -432,6 +468,8 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END 5 */ 
 }
 
+#if 0
+// Kotetsu
 /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM14 interrupt took place, inside
@@ -452,6 +490,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
   /* USER CODE END Callback 1 */
 }
+#endif
 
 /**
   * @brief  This function is executed in case of error occurrence.

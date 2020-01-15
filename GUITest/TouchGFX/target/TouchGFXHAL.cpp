@@ -19,6 +19,14 @@
 /* USER CODE BEGIN TouchGFXHAL.cpp */
 
 #include "stm32f4xx.h"
+#include "bridge.h"
+#include "touchgfx/hal/OSWrappers.hpp"
+
+namespace {
+    // Use the section "TouchGFX_Framebuffer" in the linker to specify the placement of the buffer
+    LOCATION_PRAGMA("TouchGFX_Framebuffer")
+    uint32_t frameBuf[(320 * 240 * 2 + 3) / 4] LOCATION_ATTRIBUTE("TouchGFX_Framebuffer");
+}
 
 using namespace touchgfx;
 
@@ -29,8 +37,24 @@ void TouchGFXHAL::initialize()
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
     // Please note, HAL::initialize() must be called to initialize the framework.
-
+#if 0
+	//Original
     TouchGFXGeneratedHAL::initialize();
+#else
+    //Kotetsu
+    HAL::initialize();
+
+    registerEventListener(*(touchgfx::Application::getInstance()));
+
+    setFrameBufferStartAddresses((void*)frameBuf, (void*)0, (void*)0);
+    /*
+     * Set whether the DMA transfers are locked to the TFT update cycle. If
+     * locked, DMA transfer will not begin until the TFT controller has finished
+     * updating the display. If not locked, DMA transfers will begin as soon as
+     * possible. Default is true (DMA is locked with TFT).
+     */
+    lockDMAToFrontPorch(false);
+#endif
 }
 
 /**
@@ -44,8 +68,13 @@ uint16_t* TouchGFXHAL::getTFTFrameBuffer() const
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
-
+#if 0
+	//Original
     return TouchGFXGeneratedHAL::getTFTFrameBuffer();
+#else
+    //Kotetsu
+    return (uint16_t*)frameBuf;
+#endif
 }
 
 /**
@@ -79,7 +108,19 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // Please note, HAL::flushFrameBuffer(const touchgfx::Rect& rect) must
     // be called to notify the touchgfx framework that flush has been performed.
 
+#if 0
+	// Original
     TouchGFXGeneratedHAL::flushFrameBuffer(rect);
+#else
+    TouchGFXGeneratedHAL::flushFrameBuffer(rect);
+    frameBufferAllocator->markBlockReadyForTransfer();
+    if (!isTransmittingData())
+    {
+      touchgfx::Rect r;
+      const uint8_t* pixels = frameBufferAllocator->getBlockForTransfer(r);
+      transmitFrameBufferBlock((uint8_t*)pixels, r.x, r.y, r.width, r.height);
+    }
+#endif
 }
 
 /**
@@ -135,6 +176,55 @@ void TouchGFXHAL::enableLCDControllerInterrupt()
 
     TouchGFXGeneratedHAL::enableLCDControllerInterrupt();
 }
+
+static volatile bool blockIsTransferred = false;
+
+namespace touchgfx
+{
+void FrameBufferAllocatorWaitOnTransfer()
+{
+  while(!blockIsTransferred);
+}
+
+void FrameBufferAllocatorSignalBlockDrawn()
+{
+    blockIsTransferred = false;
+    return;
+}
+
+
+void startNewTransfer()
+{
+    FrameBufferAllocator* fba = HAL::getInstance()->getFrameBufferAllocator();
+    fba->freeBlockAfterTransfer();
+    blockIsTransferred = true;
+
+    if (fba->hasBlockReadyForTransfer())
+    {
+        touchgfx::Rect r;
+        const uint8_t* pixels = fba->getBlockForTransfer(r);
+        transmitFrameBufferBlock((uint8_t*)pixels, r.x, r.y, r.width, r.height);
+    }
+}
+}
+
+extern "C" void TransferComplete()
+{
+    touchgfx::startNewTransfer();
+}
+
+
+extern "C" void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM13) {
+	    HAL::getInstance()->vSync();
+		OSWrappers::signalVSync();
+	}
+	if (htim->Instance == TIM14) {
+		HAL_IncTick();
+	}
+}
+
 
 /* USER CODE END TouchGFXHAL.cpp */
 
