@@ -150,7 +150,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_TIM_Base_Start_IT(&htim13);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -332,7 +331,9 @@ static void MX_TIM13_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM13_Init 2 */
-
+  htim13.Instance->EGR |= TIM_EGR_UG;
+  __HAL_TIM_CLEAR_IT(&htim13, TIM_IT_UPDATE);
+  HAL_TIM_Base_Start_IT(&htim13);
   /* USER CODE END TIM13_Init 2 */
 
 }

@@ -47,6 +47,13 @@ void TouchGFXHAL::initialize()
     registerEventListener(*(touchgfx::Application::getInstance()));
 
     setFrameBufferStartAddresses((void*)frameBuf, (void*)0, (void*)0);
+    setFrameRefreshStrategy(HAL::REFRESH_STRATEGY_PARTIAL_FRAMEBUFFER);
+    setTouchSampleRate(1);
+    setFingerSize(1);
+
+    // By default frame rate compensation is off.
+    // Enable frame rate compensation to smooth out animations in case there is periodic slow frame rates.
+    setFrameRateCompensation(false);
     /*
      * Set whether the DMA transfers are locked to the TFT update cycle. If
      * locked, DMA transfer will not begin until the TFT controller has finished
@@ -217,8 +224,10 @@ extern "C" void TransferComplete()
 extern "C" void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM13) {
-	    HAL::getInstance()->vSync();
+#if 1
+		HAL::getInstance()->vSync();
 		OSWrappers::signalVSync();
+#endif
 	}
 	if (htim->Instance == TIM14) {
 		HAL_IncTick();
