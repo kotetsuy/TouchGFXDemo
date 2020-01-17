@@ -18,7 +18,9 @@
 
 /* USER CODE BEGIN TouchGFXHAL.cpp */
 
+#include <touchgfx/hal/OSWrappers.hpp>
 #include "stm32f4xx.h"
+#include "LCDManager.h"
 
 using namespace touchgfx;
 
@@ -30,7 +32,10 @@ void TouchGFXHAL::initialize()
     // and implemented needed functionality here.
     // Please note, HAL::initialize() must be called to initialize the framework.
 
+#if 0
+	// Original
     TouchGFXGeneratedHAL::initialize();
+#endif
 }
 
 /**
@@ -45,7 +50,12 @@ uint16_t* TouchGFXHAL::getTFTFrameBuffer() const
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
 
+#if 0
+	// Original
     return TouchGFXGeneratedHAL::getTFTFrameBuffer();
+#else
+    return 0;
+#endif
 }
 
 /**
@@ -60,7 +70,10 @@ void TouchGFXHAL::setTFTFrameBuffer(uint16_t* address)
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
 
+#if 0
+	// Original
     TouchGFXGeneratedHAL::setTFTFrameBuffer(address);
+#endif
 }
 
 /**
@@ -78,8 +91,19 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // and implemented needed functionality here.
     // Please note, HAL::flushFrameBuffer(const touchgfx::Rect& rect) must
     // be called to notify the touchgfx framework that flush has been performed.
-
+#if 0
+	// Original
     TouchGFXGeneratedHAL::flushFrameBuffer(rect);
+#else
+    TouchGFXGeneratedHAL::flushFrameBuffer(rect);
+    frameBufferAllocator->markBlockReadyForTransfer();
+    if (!LCDManager_IsTransmittingData())
+    {
+      touchgfx::Rect r;
+      const uint8_t* pixels = frameBufferAllocator->getBlockForTransfer(r);
+      LCDManager_SendFrameBufferBlockWithPosition((uint8_t*)pixels, r.x, r.y, r.width, r.height);
+    }
+#endif
 }
 
 /**
@@ -92,8 +116,10 @@ void TouchGFXHAL::configureInterrupts()
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
-
+#if 0
+	// Original
     TouchGFXGeneratedHAL::configureInterrupts();
+#endif
 }
 
 /**
@@ -105,8 +131,10 @@ void TouchGFXHAL::enableInterrupts()
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
-
+#if 0
+	// Original
     TouchGFXGeneratedHAL::enableInterrupts();
+#endif
 }
 
 /**
@@ -118,8 +146,10 @@ void TouchGFXHAL::disableInterrupts()
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
-
+#if 0
+	// Original
     TouchGFXGeneratedHAL::disableInterrupts();
+#endif
 }
 
 /**
@@ -132,9 +162,63 @@ void TouchGFXHAL::enableLCDControllerInterrupt()
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
-
+#if 0
+	// Original
     TouchGFXGeneratedHAL::enableLCDControllerInterrupt();
+#endif
 }
+
+#if 0
+void TouchGFXHAL::endFrame()
+{
+    while(LCDManager_IsTransmittingData())
+    {
+    }
+}
+#endif
+
+static volatile bool blockIsTransferred = false;
+
+namespace touchgfx
+{
+void FrameBufferAllocatorWaitOnTransfer()
+{
+  while(!blockIsTransferred);
+}
+
+void FrameBufferAllocatorSignalBlockDrawn()
+{
+    blockIsTransferred = false;
+    return;
+}
+
+
+void startNewTransfer()
+{
+    FrameBufferAllocator* fba = HAL::getInstance()->getFrameBufferAllocator();
+    fba->freeBlockAfterTransfer();
+    blockIsTransferred = true;
+
+    if (fba->hasBlockReadyForTransfer())
+    {
+        touchgfx::Rect r;
+        const uint8_t* pixels = fba->getBlockForTransfer(r);
+        LCDManager_SendFrameBufferBlockWithPosition((uint8_t*)pixels, r.x, r.y, r.width, r.height);
+    }
+}
+}
+
+void LCDManager_TransferComplete()
+{
+    touchgfx::startNewTransfer();
+}
+
+extern "C" void touchgfx_signalVSyncTimer(void)
+{
+    HAL::getInstance()->vSync();
+    touchgfx::OSWrappers::signalVSync();
+}
+
 
 /* USER CODE END TouchGFXHAL.cpp */
 

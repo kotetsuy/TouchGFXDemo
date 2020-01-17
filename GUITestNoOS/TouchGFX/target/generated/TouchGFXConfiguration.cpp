@@ -28,6 +28,8 @@
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
 
+#if 0
+
 static STM32TouchController tc;
 static NoDMA dma;
 static LCD16bpp display;
@@ -59,5 +61,5 @@ void touchgfx_taskEntry()
   */
   OSWrappers::waitForVSync();
 }
-
+#endif
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
