@@ -115,7 +115,6 @@ int main(void)
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
   ILI9341_Init();
-
   /* USER CODE END 2 */
  
  

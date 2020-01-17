@@ -45,6 +45,7 @@ from Original source:
 
 extern SPI_HandleTypeDef hspi3;
 extern void Error_Handler(void);
+static uint8_t XPT2046_initilazed = 0;
 
 static void XPT2046_SetCS(void)
 {
@@ -104,10 +105,19 @@ static int16_t besttwoavg( int16_t x , int16_t y , int16_t z ) {
   return (reta);
 }
 
+void XPT2046_Init(void)
+{
+	XPT2046_initilazed = 1;
+}
+
 void XPT2046_Update(uint16_t *x, uint16_t *y)
 {
 	int16_t data[6];
 	static uint32_t ptime = 0;
+
+	if (XPT2046_initilazed == 0) {
+		return;
+	}
 
 	if (HAL_GetTick() - ptime < MSEC_THRESHOLD) {
 		return;

@@ -49,6 +49,7 @@ SOFTWARE.
 #define XPT_WIDTH (XPT_XMAX - XPT_XMIN)
 #define XPT_HEIGHT (XPT_YMAX - XPT_YMIN)
 
+void XPT2046_Init(void);
 void XPT2046_Update(uint16_t *x, uint16_t *y);
 uint8_t XPT2046_IsReasonable(uint16_t x, uint16_t y);
 
