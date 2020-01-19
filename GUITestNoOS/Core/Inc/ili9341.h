@@ -38,29 +38,8 @@ SOFTWARE.
 
 #include "main.h" // For STM32F4
 
-#define WHITE       	0xFFFF
-#define BLACK      		0x0000
-#define BLUE       		0x001F
-#define BRED        	0XF81F
-#define GRED 			0XFFE0
-#define GBLUE			0X07FF
-#define RED         	0xF800
-#define MAGENTA     	0xF81F
-#define GREEN       	0x07E0
-#define CYAN        	0x7FFF
-#define YELLOW      	0xFFE0
-#define BROWN 			0XBC40
-#define BRRED 			0XFC07
-#define GRAY  			0X8430
-#define DARKBLUE      	0X01CF
-#define LIGHTBLUE      	0X7D7C
-#define GRAYBLUE       	0X5458
-#define LIGHTGREEN     	0X841F
-#define LIGHTGRAY     	0XEF5B
-#define LGRAY 			0XC618
-#define LGRAYBLUE      	0XA651
-#define LBBLUE          0X2B12
-
+#define GUI_WIDTH 320
+#define GUI_HEIGHT 240
 
 void ILI9341_Init(void);
 void ILI9341_SetWindow(uint16_t start_x, uint16_t start_y, uint16_t end_x, uint16_t end_y);
