@@ -33,7 +33,7 @@ It's not working now.
 |PE9|TS CS|
 |PE13|TS IRQ|
 
-![Nucleo and SPI LCD](https://github.com/kotetsuy/TouchGFXDemo/tree/master/images/IMG_1484.jpg "Picture")
+![Nucleo and SPI LCD](https://github.com/kotetsuy/TouchGFXDemo/tree/master/images/IMG_1484.jpg)
 
 # TODO
 I'm going to support QSPI board to support bitmap on TouchGFX.

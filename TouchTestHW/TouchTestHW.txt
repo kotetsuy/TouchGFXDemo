@@ -1,6 +1,6 @@
 Configuration	TouchTestHW
-STM32CubeMX 	5.4.0
-Date	01/10/2020
+STM32CubeMX 	5.5.0
+Date	01/19/2020
 MCU	STM32F446ZETx
 
 
