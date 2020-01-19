@@ -6,10 +6,15 @@ For SPI LCD is as;
 - SPILCDTest
 - SPILCDTestFPS
 - SPILCDTestXY
+- SPILCDTestFPS412
 
 For SPI TC is as;
 - TouchTest
 - TouchTestHW
+- TouchTestHW412
+
+For Combination test is as;
+- DrawingTest
 
 # Trying
 I'm developing as;
