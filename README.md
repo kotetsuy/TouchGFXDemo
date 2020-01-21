@@ -1,6 +1,6 @@
 # TouchGFXDemo
-I'm trying to run TouchGFX on Nucleo-F412ZG+SPI LCD(https://www.amazon.co.jp/dp/B072N551V3).
-I already are a success to run SPI LCD function and SPI TC function independently.
+I try to run TouchGFX on Nucleo-F412ZG+SPI LCD(https://www.amazon.co.jp/dp/B072N551V3).
+I already are a success it.
 
 For SPI LCD is as;
 - SPILCDTest
@@ -16,11 +16,9 @@ For SPI TC is as;
 For Combination test is as;
 - DrawingTest
 
-# Trying
-I'm developing as;
+For small GUI by TouchGFX test as;
 - GUITestNoOS
-
-It's not working now.
+https://youtu.be/tz8haqRtUfs
 
 # Hardware Connection
 | Pinname | Function |
