@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ili9341.h"
+#include "xpt2046.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

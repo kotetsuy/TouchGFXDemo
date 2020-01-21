@@ -215,6 +215,18 @@ void ILI9341_WritePixel(uint16_t x, uint16_t y, uint16_t color)
 	}
 }
 
+static void ConvHL(uint8_t *s, int32_t l)
+{
+	uint8_t v;
+	while (l > 0) {
+		v = *(s+1);
+		*(s+1) = *s;
+		*s = v;
+		s += 2;
+		l -= 2;
+	}
+}
+
 // Call this function after ILI9341_SetWindow
 // This function is non blocked
 // The variable for Callback is open. User should set by himself
@@ -224,7 +236,28 @@ void ILI9341_DrawBitmap(uint16_t w, uint16_t h, uint8_t *s)
 	LCD_WR_REG(0x2c);
 
 	DC_H();
-	HAL_SPI_Transmit_DMA(&hspi1, (uint8_t*)s, w * h *sizeof(uint16_t));
+#if 0
+	__HAL_SPI_DISABLE(&hspi1);
+	hspi1.Instance->CR2 |= SPI_DATASIZE_16BIT; // Set 16 bit mode
+	__HAL_SPI_ENABLE(&hspi1);
+#endif
+	ConvHL(s, (int32_t)w*h*2);
+	HAL_SPI_Transmit_DMA(&hspi1, (uint8_t*)s, w * h * 2);
+#if 0
+	__HAL_SPI_DISABLE(&hspi1);
+	hspi1.Instance->CR2 &= ~(SPI_DATASIZE_16BIT); // Set 8 bit mode
+	__HAL_SPI_ENABLE(&hspi1);
+#endif
+}
+
+// User should call it at callback
+void ILI9341_EndOfDrawBitmap(void)
+{
+#if 0
+	__HAL_SPI_DISABLE(&hspi1);
+	hspi1.Instance->CR2 &= ~(SPI_DATASIZE_16BIT); // Set 8 bit mode
+	__HAL_SPI_ENABLE(&hspi1);
+#endif
 }
 
 void ILI9341_Reset(void)

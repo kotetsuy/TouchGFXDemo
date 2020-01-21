@@ -28,8 +28,7 @@
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
 
-#if 0
-
+#if 0 // Kotetsu
 static STM32TouchController tc;
 static NoDMA dma;
 static LCD16bpp display;

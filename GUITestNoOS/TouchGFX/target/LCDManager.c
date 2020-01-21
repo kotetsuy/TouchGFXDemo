@@ -23,7 +23,8 @@ void LCDManager_SendFrameBufferBlockWithPosition(uint8_t* pixels, uint16_t x, ui
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	if (hspi->Instance == SPI1){
+	if (hspi->Instance == SPI1) {
+		ILI9341_EndOfDrawBitmap();
 		isTransmittingData = 0;
 		LCDManager_TransferComplete();
 	}
