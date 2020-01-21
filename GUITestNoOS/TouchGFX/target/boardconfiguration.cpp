@@ -31,13 +31,14 @@
 #include <touchgfx/hal/NoDMA.hpp>
 #include <TouchGFXHAL.hpp>
 #include <stm32f4xx_hal.h>
+#include "STM32TouchController.hpp"
 #include "ili9341.h"
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
 extern "C" void hx8347d_displayOn(void);
 extern uint32_t vsync_sem;
 NoDMA dma;
-NoTouchController tc;
+static STM32TouchController tc;
 LCD16bpp display;
 static uint32_t animationstorage = 0;
 
