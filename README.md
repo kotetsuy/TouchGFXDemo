@@ -3,21 +3,21 @@ I try to run TouchGFX on Nucleo-F412ZG+SPI LCD(https://www.amazon.co.jp/dp/B072N
 I already are a success it.
 
 For SPI LCD is as;
-- SPILCDTest
-- SPILCDTestFPS
-- SPILCDTestXY
-- SPILCDTestFPS412
+- SPILCDTest (For F446)
+- SPILCDTestFPS (For F446)
+- SPILCDTestXY (For F446)
+- SPILCDTestFPS412 (For F412)
 
 For SPI TC is as;
-- TouchTest
-- TouchTestHW
-- TouchTestHW412
+- TouchTest (For F446)
+- TouchTestHW (For F446)
+- TouchTestHW412 (For F412)
 
 For Combination test is as;
-- DrawingTest
+- DrawingTest (For F412)
 
 For small GUI by TouchGFX test as;
-- GUITestNoOS
+- GUITestNoOS (For F412)
 https://youtu.be/tz8haqRtUfs
 
 # Hardware Connection
@@ -36,7 +36,7 @@ https://youtu.be/tz8haqRtUfs
 |PE9|TS CS|
 |PE13|TS IRQ|
 
-![Nucleo and SPI LCD](https://github.com/kotetsuy/TouchGFXDemo/tree/master/images/IMG_1484.jpg)
+![Nucleo and SPI LCD](https://github.com/kotetsuy/TouchGFXDemo/blob/master/images/IMG_1484.jpg)
 
 # TODO
 I'm going to support QSPI board to support bitmap on TouchGFX.
