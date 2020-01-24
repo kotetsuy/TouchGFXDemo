@@ -23,6 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 #include "w25q128jv.h"
 /* USER CODE END Includes */
 
@@ -60,7 +61,7 @@ static void MX_USART3_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t RxBuf[0x10000] = {0};
+uint8_t Buf[256];
 /* USER CODE END 0 */
 
 /**
@@ -70,7 +71,7 @@ uint8_t RxBuf[0x10000] = {0};
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	__IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   /* USER CODE END 1 */
   
 
@@ -96,8 +97,20 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   W25Q128JV_Init();
+  W25Q128JV_EraseBlock(0);
   W25Q128JV_AutoPollingMemReady(&hqspi);
-  W25Q128JV_Read(0, RxBuf, 10);
+  for (uint32_t i = 0; i < 256; i++) {
+	  Buf[i] = i & 0xff;
+  }
+  W25Q128JV_Write(0, Buf, 256);
+  W25Q128JV_AutoPollingMemReady(&hqspi);
+  memset(Buf, 0, 256);
+  W25Q128JV_ReadDual(0, Buf, 256);
+  W25Q128JV_ReadDual(1, Buf, 16);
+  W25Q128JV_ReadDual(2, Buf, 16);
+  W25Q128JV_MemoryMapped();
+  memcpy(Buf, qspi_addr, 16);
+  memcpy(Buf, qspi_addr+16, 16);
 
   /* USER CODE END 2 */
  
@@ -175,11 +188,11 @@ static void MX_QUADSPI_Init(void)
   /* USER CODE END QUADSPI_Init 1 */
   /* QUADSPI parameter configuration*/
   hqspi.Instance = QUADSPI;
-  hqspi.Init.ClockPrescaler = 255;
+  hqspi.Init.ClockPrescaler = 0;
   hqspi.Init.FifoThreshold = 4;
   hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_HALFCYCLE;
   hqspi.Init.FlashSize = 23;
-  hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_5_CYCLE;
+  hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_6_CYCLE;
   hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
   hqspi.Init.FlashID = QSPI_FLASH_ID_1;
   hqspi.Init.DualFlash = QSPI_DUALFLASH_DISABLE;

@@ -38,8 +38,15 @@ typedef enum {
 	W25Q128JV_BUSY
 } W25Q128JV_State_t;
 
+/* Reset Operations */
+#define ENABLE_RESET                         0x66 //
+#define RESET_DEVICE                         0x99 //
+
 /* Read Operations */
-#define QUAD_INOUT_FAST_READ_CMD             0xEB //
+#define READ_DATA_CMD                        0x03 //
+#define FAST_READ_DATA_CMD                   0x0b //
+#define FAST_READ_DUAL_OUTPUT                0x3b //
+#define FAST_READ_QUAD_OUTPUT                0x6b //
 
 /* Write Operations */
 #define WRITE_ENABLE_CMD                     0x06 //
@@ -47,7 +54,10 @@ typedef enum {
 /* Register Operations */
 #define READ_STATUS_REG_CMD                  0x05 //
 #define READ_STATUS_REG2_CMD                 0x35 //
+#define READ_STATUS_REG3_CMD                 0x15 //
 #define WRITE_STATUS_REG2_CMD                0x31 //
+#define WRITE_STATUS_REG3_CMD                0x11 //
+#define VOLATILE_SR_WRITE_ENABLE             0x50 //
 
 /* Program Operations */
 #define PAGE_PROG_CMD                        0x02 //
@@ -55,14 +65,16 @@ typedef enum {
 /* Erase Operations */
 #define BLOCK_ERASE_CMD                      0xD8 // 64Kbyte block erase
 
-#define DUMMY_CLOCK_CYCLES_READ_QUAD         4 //
+#define DUMMY_CLOCK_CYCLES_READ_QUAD         8 //
 
 HAL_StatusTypeDef W25Q128JV_AutoPollingMemReady(QSPI_HandleTypeDef *hqspi);
 HAL_StatusTypeDef W25Q128JV_Init(void);
 HAL_StatusTypeDef W25Q128JV_EraseBlock(uint32_t flash_address);
 HAL_StatusTypeDef W25Q128JV_Write(uint32_t flash_address, uint8_t *s, int32_t l);
-HAL_StatusTypeDef W25Q128JV_Read(uint32_t flash_address, uint8_t *d, int32_t l);
-W25Q128JV_State_t W25Q128JV_IsBusy(void);
-
+HAL_StatusTypeDef W25Q128JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q128JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q128JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q128JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q128JV_MemoryMapped(void);
 
 #endif /* INC_W25Q128JV_H_ */
