@@ -1,0 +1,86 @@
+Configuration	QSPITest
+STM32CubeMX 	5.5.0
+Date	01/24/2020
+MCU	STM32F412ZGTx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO0	PD11
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO1	PD12
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO2	PE2
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO3	PD13
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_NCS	PB6
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_CLK	PB2
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART3	Asynchronous	USART3_RX	PD9
+USART3	Asynchronous	USART3_TX	PD8
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+1	PE2	QUADSPI_BK1_IO2	
+48	PB2	QUADSPI_CLK	
+77	PD8	USART3_TX	
+78	PD9	USART3_RX	
+80	PD11	QUADSPI_BK1_IO0	
+81	PD12	QUADSPI_BK1_IO1	
+82	PD13	QUADSPI_BK1_IO3	
+105	PA13	SYS_JTMS-SWDIO	
+109	PA14	SYS_JTCK-SWCLK	
+136	PB6	QUADSPI_BK1_NCS	
+PERIPHERALS	MODES	FUNCTIONS	PINS
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO0	PD11
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO1	PD12
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO2	PE2
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_IO3	PD13
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_BK1_NCS	PB6
+QUADSPI	Bank1 with Quad SPI Lines	QUADSPI_CLK	PB2
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+USART3	Asynchronous	USART3_RX	PD9
+USART3	Asynchronous	USART3_TX	PD8
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+1	PE2	QUADSPI_BK1_IO2	
+48	PB2	QUADSPI_CLK	
+77	PD8	USART3_TX	
+78	PD9	USART3_RX	
+80	PD11	QUADSPI_BK1_IO0	
+81	PD12	QUADSPI_BK1_IO1	
+82	PD13	QUADSPI_BK1_IO3	
+105	PA13	SYS_JTMS-SWDIO	
+109	PA14	SYS_JTCK-SWCLK	
+136	PB6	QUADSPI_BK1_NCS	
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : QSPITest
+Project Folder : D:\ST\TouchGFXDemo\QSPITest
+Toolchain / IDE : STM32CubeIDE
+Firmware Package Name and Version : STM32Cube FW_F4 V1.24.2
+
+
+Code Generation Settings : 
+STM32Cube MCU packages and embedded software packs : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+
