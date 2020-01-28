@@ -1,0 +1,495 @@
+{
+  "Application": {
+    "Screens": [
+      {
+        "Components": [
+          {
+            "Color": {
+              "Red": 0,
+              "Green": 32,
+              "Blue": 82
+            },
+            "Alpha": 255,
+            "Name": "box1",
+            "X": 0,
+            "Y": 0,
+            "Width": 320,
+            "Height": 240,
+            "Type": "Box",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Color": {
+              "Red": 226,
+              "Green": 255,
+              "Blue": 8
+            },
+            "Points": [
+              {
+                "X": 0.0,
+                "Y": -55.0
+              },
+              {
+                "X": 12.0,
+                "Y": -19.0
+              },
+              {
+                "X": 54.0,
+                "Y": -19.0
+              },
+              {
+                "X": 18.0,
+                "Y": -1.0
+              },
+              {
+                "X": 28.0,
+                "Y": 41.0
+              },
+              {
+                "X": 0.0,
+                "Y": 17.0
+              },
+              {
+                "X": -28.0,
+                "Y": 41.0
+              },
+              {
+                "X": -18.0,
+                "Y": -1.0
+              },
+              {
+                "X": -55.0,
+                "Y": -19.0
+              },
+              {
+                "X": -12.0,
+                "Y": -19.0
+              }
+            ],
+            "Angle": 0.0,
+            "XScale": 1.0,
+            "YScale": 1.0,
+            "XOrigin": 114.00000000000034,
+            "YOrigin": 90.0,
+            "Alpha": 255,
+            "Name": "shape1",
+            "X": 47,
+            "Y": 11,
+            "Width": 229,
+            "Height": 178,
+            "Type": "Shape",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_down_gray.png",
+            "Released": "arrow_down.png",
+            "Alpha": 255,
+            "Name": "buttonDown",
+            "X": 59,
+            "Y": 197,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_up_gray.png",
+            "Released": "arrow_up.png",
+            "Alpha": 255,
+            "Name": "buttonUp",
+            "X": 231,
+            "Y": 197,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_left_gray.png",
+            "Released": "arrow_left.png",
+            "Alpha": 255,
+            "Name": "buttonLeft",
+            "X": 7,
+            "Y": 104,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_right_gray.png",
+            "Released": "arrow_right.png",
+            "Alpha": 255,
+            "Name": "buttonRight",
+            "X": 282,
+            "Y": 104,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonDown",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "IsRelative": true,
+              "XScale": 0.9,
+              "YScale": 0.9,
+              "ActionComponent": "shape1",
+              "Type": "ActionScaleShape"
+            }
+          },
+          {
+            "InteractionName": "Interaction2",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonUp",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "IsRelative": true,
+              "XScale": 1.1,
+              "YScale": 1.1,
+              "ActionComponent": "shape1",
+              "Type": "ActionScaleShape"
+            }
+          },
+          {
+            "InteractionName": "Interaction3",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonDown",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "IsRelative": true,
+              "Angle": 3.0,
+              "ActionComponent": "shape1",
+              "Type": "ActionRotateShape"
+            }
+          },
+          {
+            "InteractionName": "Interaction4",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonUp",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "IsRelative": true,
+              "Angle": -3.0,
+              "ActionComponent": "shape1",
+              "Type": "ActionRotateShape"
+            }
+          },
+          {
+            "InteractionName": "Interaction5",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonLeft",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "ScreenLeft",
+              "Type": "ActionGotoScreen"
+            }
+          },
+          {
+            "InteractionName": "Interaction6",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonRight",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "ScreenRight",
+              "Type": "ActionGotoScreen"
+            }
+          }
+        ],
+        "Name": "ScreenCenter",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 4800
+      },
+      {
+        "Components": [
+          {
+            "Color": {
+              "Red": 0,
+              "Green": 32,
+              "Blue": 82
+            },
+            "Alpha": 255,
+            "Name": "box1",
+            "X": 0,
+            "Y": 0,
+            "Width": 320,
+            "Height": 240,
+            "Type": "Box",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Style": "Style1",
+            "UseAnimation": true,
+            "RenderingAlgorithm": "Nearest-neighbor",
+            "FileNameImage": "__designer\\Blue_Logo_touchgfx_logo.png",
+            "LockBitmapToCenter": false,
+            "XBitmapPosition": 26.0,
+            "YBitmapPosition": 26.0,
+            "XAngle": -0.5,
+            "YAngle": -0.5,
+            "ZAngle": -0.5,
+            "Scale": 1.0,
+            "LockOrigoToCenter": false,
+            "XOrigo": 90.0,
+            "YOrigo": 90.0,
+            "ZOrigo": 1000.0,
+            "CameraDistance": 1000.0,
+            "Alpha": 255,
+            "Name": "textureMapper1",
+            "X": 70,
+            "Y": 30,
+            "Width": 180,
+            "Height": 180,
+            "Type": "TextureMapper",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_right_gray.png",
+            "Released": "arrow_right.png",
+            "Alpha": 255,
+            "Name": "buttonRight",
+            "X": 278,
+            "Y": 104,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonRight",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "ScreenCenter",
+              "Type": "ActionGotoScreen"
+            }
+          }
+        ],
+        "Name": "ScreenLeft",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 0
+      },
+      {
+        "Components": [
+          {
+            "Color": {
+              "Red": 0,
+              "Green": 32,
+              "Blue": 82
+            },
+            "Alpha": 255,
+            "Name": "box1",
+            "X": 0,
+            "Y": 0,
+            "Width": 320,
+            "Height": 240,
+            "Type": "Box",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Pressed": "arrow_left_gray.png",
+            "Released": "arrow_left.png",
+            "Alpha": 255,
+            "Name": "buttonLeft",
+            "X": 7,
+            "Y": 104,
+            "Width": 32,
+            "Height": 32,
+            "Type": "Button",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "FileNameProgress": "__designer\\Blue_ProgressIndicators_fill_tiling_progress_indicator_fill_striped_normal_horizontal.png",
+            "AnchorAtZero": false,
+            "Direction": "Right",
+            "Alpha": 255,
+            "Style": "Style3",
+            "FileNameBackground": "__designer\\Blue_ProgressIndicators_bg_medium_progress_indicator_bg_square_0_degrees.png",
+            "IndicatorPositionX": 2,
+            "IndicatorPositionY": 2,
+            "IndicatorPositionWidth": 180,
+            "IndicatorPositionHeight": 16,
+            "ProgressRangeMin": 0,
+            "ProgressRangeMax": 100,
+            "ProgressRangeSteps": 0,
+            "ProgressRangeStepsMin": 0,
+            "ProgressInitialValue": 60,
+            "Name": "imageProgress1",
+            "X": 68,
+            "Y": 110,
+            "Width": 184,
+            "Height": 20,
+            "Type": "ImageProgress",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "TextId": "SingleUseId2",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 0
+            },
+            "Alpha": 255,
+            "AutoSize": true,
+            "LineSpacing": 0,
+            "Name": "textArea1",
+            "X": 90,
+            "Y": 42,
+            "Width": 140,
+            "Height": 20,
+            "Type": "TextArea",
+            "Visible": true,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "TriggerComponent": "buttonLeft",
+              "Type": "TriggerClicked"
+            },
+            "Action": {
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "ScreenCenter",
+              "Type": "ActionGotoScreen"
+            }
+          }
+        ],
+        "Name": "ScreenRight",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 0
+      }
+    ],
+    "CustomContainerDefinitions": [],
+    "TextEntries": [
+      {
+        "TextEntryId": "SingleUseId2",
+        "IsResource": false
+      }
+    ],
+    "Name": "TouchGFXDemo",
+    "Resolution": {
+      "Width": 320,
+      "Height": 240
+    },
+    "SelectedColorDepth": 16,
+    "StartupScreenName": "ScreenCenter",
+    "SelectedStartupLanguage": "GB",
+    "Skin": "Blue",
+    "TouchGfxPath": "../Middlewares/ST/touchgfx",
+    "UIPath": ".",
+    "AvailableColorDepths": [
+      16
+    ],
+    "AvailableLCDs": {
+      "16": "LCD16bpp"
+    },
+    "AvailableSections": [
+      "ExtFlashSection",
+      "IntFlashSection"
+    ],
+    "AvailableResolutions": [
+      {
+        "Width": 320,
+        "Height": 240
+      }
+    ],
+    "PhysicalButtons": [],
+    "FrameworkFeatures": {
+      "LCD16bpp": {
+        "Id": "LCD16bpp",
+        "IsEnabled": true
+      }
+    },
+    "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
+    "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
+    "PostGenerateTargetCommand": "touchgfx update_project --project-file=../TouchGFXDemo.ioc --platform=m4",
+    "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
+    "RunSimulatorCommand": "build\\bin\\simulator.exe",
+    "LandscapeSkinX": 0,
+    "LandscapeSkinY": 0,
+    "PortraitSkinX": 0,
+    "PortraitSkinY": 0,
+    "DisplayOrientation": "Landscape"
+  },
+  "Version": "4.13.0"
+}
