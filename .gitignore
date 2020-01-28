@@ -58,4 +58,7 @@ Debug/
 *.launch
 RemoteSystemsTempFiles
 
+# backup
+*.bak
+*~
 
