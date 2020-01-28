@@ -26,7 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include "ili9341.h"
 #include "xpt2046.h"
-
+#include "w25q128jv.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,6 +115,10 @@ int main(void)
   MX_SPI3_Init();
   MX_TIM13_Init();
   MX_USART3_UART_Init();
+  // Kotetsu
+  W25Q128JV_Init();
+  W25Q128JV_MemoryMapped();
+
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
   ILI9341_Init();
