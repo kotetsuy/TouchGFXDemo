@@ -1,6 +1,6 @@
 Configuration	QSPITest
 STM32CubeMX 	5.5.0
-Date	01/24/2020
+Date	01/31/2020
 MCU	STM32F412ZGTx
 
 
