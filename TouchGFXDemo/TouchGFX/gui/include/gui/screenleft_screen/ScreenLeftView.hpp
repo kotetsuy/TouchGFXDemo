@@ -12,6 +12,7 @@ public:
     virtual void setupScreen();
     virtual void tearDownScreen();
 protected:
+    //GenericCallback<const AnimationTextureMapper& > startAnimation(void);
 };
 
 #endif // SCREENLEFTVIEW_HPP

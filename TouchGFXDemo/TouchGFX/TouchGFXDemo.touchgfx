@@ -257,7 +257,6 @@
             "Moveable": false
           },
           {
-            "Style": "Style1",
             "UseAnimation": true,
             "RenderingAlgorithm": "Nearest-neighbor",
             "FileNameImage": "__designer\\Blue_Logo_touchgfx_logo.png",
@@ -268,7 +267,7 @@
             "YAngle": -0.5,
             "ZAngle": -0.5,
             "Scale": 1.0,
-            "LockOrigoToCenter": false,
+            "LockOrigoToCenter": true,
             "XOrigo": 90.0,
             "YOrigo": 90.0,
             "ZOrigo": 1000.0,
