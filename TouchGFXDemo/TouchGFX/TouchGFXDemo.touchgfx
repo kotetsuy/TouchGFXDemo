@@ -4,18 +4,14 @@
       {
         "Components": [
           {
-            "Color": {
-              "Red": 0,
-              "Green": 32,
-              "Blue": 82
-            },
+            "RelativeFilename": "bg_center.png",
             "Alpha": 255,
-            "Name": "box1",
+            "Name": "image1",
             "X": 0,
             "Y": 0,
             "Width": 320,
             "Height": 240,
-            "Type": "Box",
+            "Type": "Image",
             "Visible": true,
             "Draggable": false,
             "Clickable": false,
@@ -246,18 +242,14 @@
       {
         "Components": [
           {
-            "Color": {
-              "Red": 0,
-              "Green": 32,
-              "Blue": 82
-            },
+            "RelativeFilename": "bg_left.png",
             "Alpha": 255,
-            "Name": "box1",
+            "Name": "image1",
             "X": 0,
             "Y": 0,
             "Width": 320,
             "Height": 240,
-            "Type": "Box",
+            "Type": "Image",
             "Visible": true,
             "Draggable": false,
             "Clickable": false,
@@ -333,18 +325,14 @@
       {
         "Components": [
           {
-            "Color": {
-              "Red": 0,
-              "Green": 32,
-              "Blue": 82
-            },
+            "RelativeFilename": "bg_right.png",
             "Alpha": 255,
-            "Name": "box1",
+            "Name": "image1",
             "X": 0,
             "Y": 0,
             "Width": 320,
             "Height": 240,
-            "Type": "Box",
+            "Type": "Image",
             "Visible": true,
             "Draggable": false,
             "Clickable": false,

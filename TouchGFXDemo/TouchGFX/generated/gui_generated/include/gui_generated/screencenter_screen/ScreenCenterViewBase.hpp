@@ -7,7 +7,7 @@
 #include <gui/common/FrontendApplication.hpp>
 #include <mvp/View.hpp>
 #include <gui/screencenter_screen/ScreenCenterPresenter.hpp>
-#include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/canvas/Shape.hpp>
 #include <touchgfx/widgets/canvas/PainterRGB565.hpp>
 #include <touchgfx/widgets/Button.hpp>
@@ -27,7 +27,7 @@ protected:
     /*
      * Member Declarations
      */
-    touchgfx::Box box1;
+    touchgfx::Image image1;
     touchgfx::Shape<10> shape1;
     touchgfx::PainterRGB565 shape1Painter;
     touchgfx::Button buttonDown;

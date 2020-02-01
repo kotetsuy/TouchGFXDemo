@@ -7,7 +7,7 @@
 #include <gui/common/FrontendApplication.hpp>
 #include <mvp/View.hpp>
 #include <gui/screenright_screen/ScreenRightPresenter.hpp>
-#include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/Button.hpp>
 #include <touchgfx/containers/progress_indicators/ImageProgress.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
@@ -27,7 +27,7 @@ protected:
     /*
      * Member Declarations
      */
-    touchgfx::Box box1;
+    touchgfx::Image image1;
     touchgfx::Button buttonLeft;
     touchgfx::ImageProgress imageProgress1;
     touchgfx::TextArea textArea1;

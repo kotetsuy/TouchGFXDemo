@@ -7,7 +7,7 @@
 #include <gui/common/FrontendApplication.hpp>
 #include <mvp/View.hpp>
 #include <gui/screenleft_screen/ScreenLeftPresenter.hpp>
-#include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/AnimationTextureMapper.hpp>
 #include <touchgfx/widgets/Button.hpp>
 
@@ -26,7 +26,7 @@ protected:
     /*
      * Member Declarations
      */
-    touchgfx::Box box1;
+    touchgfx::Image image1;
     touchgfx::AnimationTextureMapper textureMapper1;
     touchgfx::Button buttonRight;
 
