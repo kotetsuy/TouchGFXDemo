@@ -6,21 +6,19 @@ FONT_TABLE_LOCATION_FLASH_PRAGMA
 KEEP extern const touchgfx::GlyphNode glyphs_HGRSMP_TTF_20_4bpp[] FONT_TABLE_LOCATION_FLASH_ATTRIBUTE =
 {
     {     0, 0x003F,  14,  17,  16,   0,  14,   0,   0, 0x00 },
-    {     0, 0x30AD,  18,  18,  16,   1,  20,   0,   0, 0x00 },
-    {   162, 0x30B9,  18,  17,  15,   1,  20,   0,   0, 0x00 },
-    {   315, 0x30C6,  18,  17,  15,   1,  20,   0,   0, 0x00 },
-    {   468, 0x30C8,  12,  17,  16,   6,  20,   0,   0, 0x00 },
-    {     0, 0x65E5,  15,  16,  15,   2,  20,   0,   0, 0x00 },
-    {   128, 0x672C,  18,  18,  16,   1,  20,   0,   0, 0x00 },
-    {     0, 0x8A9E,  18,  17,  16,   1,  20,   0,   0, 0x00 }
+    {     0, 0x30B0,  19,  18,  17,   1,  20,   0,   0, 0x00 },
+    {   180, 0x30B9,  18,  17,  15,   1,  20,   0,   0, 0x00 },
+    {   333, 0x30D0,  19,  17,  16,   1,  20,   0,   0, 0x00 },
+    {   503, 0x30D7,  19,  18,  17,   1,  20,   0,   0, 0x00 },
+    {   683, 0x30EC,  16,  17,  16,   3,  20,   0,   0, 0x00 },
+    {   819, 0x30ED,  16,  16,  15,   2,  20,   0,   0, 0x00 },
+    {   947, 0x30FC,  17,   3,   9,   2,  20,   0,   0, 0x00 }
 };
 
 // HGRSMP_TTF_20_4bpp
 extern const touchgfx::GlyphNode glyphs_HGRSMP_TTF_20_4bpp[];
 extern const uint8_t unicodes_HGRSMP_TTF_20_4bpp_0[];
 extern const uint8_t unicodes_HGRSMP_TTF_20_4bpp_6[];
-extern const uint8_t unicodes_HGRSMP_TTF_20_4bpp_12[];
-extern const uint8_t unicodes_HGRSMP_TTF_20_4bpp_17[];
 extern const uint8_t* const unicodes_HGRSMP_TTF_20_4bpp[] =
 {
     unicodes_HGRSMP_TTF_20_4bpp_0,
@@ -29,18 +27,7 @@ extern const uint8_t* const unicodes_HGRSMP_TTF_20_4bpp[] =
     0,
     0,
     0,
-    unicodes_HGRSMP_TTF_20_4bpp_6,
-    0,
-    0,
-    0,
-    0,
-    0,
-    unicodes_HGRSMP_TTF_20_4bpp_12,
-    0,
-    0,
-    0,
-    0,
-    unicodes_HGRSMP_TTF_20_4bpp_17
+    unicodes_HGRSMP_TTF_20_4bpp_6
 };
 extern const touchgfx::KerningNode kerning_HGRSMP_TTF_20_4bpp[];
 touchgfx::GeneratedFont& getFont_HGRSMP_TTF_20_4bpp();

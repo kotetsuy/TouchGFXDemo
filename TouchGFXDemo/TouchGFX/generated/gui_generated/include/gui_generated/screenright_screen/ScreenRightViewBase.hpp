@@ -11,6 +11,8 @@
 #include <touchgfx/widgets/Button.hpp>
 #include <touchgfx/containers/progress_indicators/ImageProgress.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/containers/progress_indicators/CircleProgress.hpp>
+#include <touchgfx/widgets/canvas/PainterRGB565Bitmap.hpp>
 
 class ScreenRightViewBase : public touchgfx::View<ScreenRightPresenter>
 {
@@ -31,6 +33,8 @@ protected:
     touchgfx::Button buttonLeft;
     touchgfx::ImageProgress imageProgress1;
     touchgfx::TextArea textArea1;
+    touchgfx::CircleProgress circleProgress1;
+    touchgfx::PainterRGB565Bitmap circleProgress1Painter;
 
 private:
 
@@ -44,6 +48,11 @@ private:
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
 
+    /*
+     * Canvas Buffer Size
+     */
+    static const uint16_t CANVAS_BUFFER_SIZE = 4800;
+    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
 };
 
 #endif // SCREENRIGHTVIEWBASE_HPP

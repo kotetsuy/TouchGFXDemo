@@ -11,7 +11,14 @@ public:
     virtual ~ScreenRightView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
+    virtual void handleTickEvent();
+    void updateProgress(uint16_t tick);
 protected:
+    uint16_t tickCounter;
+    int16_t imageProgress1Max;
+    int16_t imageProgress1Min;
+    int16_t circleProgressMax;
+    int16_t circleProgressMin;
 };
 
 #endif // SCREENRIGHTVIEW_HPP
