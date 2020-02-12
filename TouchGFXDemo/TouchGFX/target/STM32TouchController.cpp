@@ -18,6 +18,7 @@
 /* USER CODE BEGIN STM32TouchController */
 
 #include <STM32TouchController.hpp>
+#include "autodemo.hpp"
 #include "ili9341.h"
 #include "xpt2046.h"
 
@@ -34,6 +35,10 @@ static void ConvXPTtoILI(uint16_t *x, uint16_t *y)
 	*x = tx;
 	*y = ty;
 }
+
+#define ArraySiz(a) 95
+
+extern AutoDemo_t autoDemoArray[];
 }
 
 void STM32TouchController::init()
@@ -57,6 +62,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
      * By default sampleTouch is called every tick, this can be adjusted by HAL::setTouchSampleRate(int8_t);
      *
      */
+#ifdef AUTODEMO
 	static uint16_t prevx = GUI_WIDTH;
 	static uint16_t prevy = GUI_HEIGHT;
 	uint16_t intx, inty;
@@ -72,6 +78,30 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 		}
 	}
     return false;
+#else
+    static uint32_t idx = 0;
+    static int32_t n = 0;
+    static uint16_t intx = 999;
+    static uint16_t inty = 999;
+
+    if (n == 0) {
+    	n = autoDemoArray[idx].n;
+    	intx = autoDemoArray[idx].x;
+    	inty = autoDemoArray[idx].y;
+    	idx++;
+    	idx = (idx >= ArraySiz(autoDemoArray)) ? 0 : idx;
+    }
+    if (n > 0) {
+    	n--;
+    	if (intx != 999) {
+			x = (int32_t)intx;
+			y = (int32_t)inty;
+			return true;
+    	}
+    }
+    HAL_Delay(1);
+    return false;
+#endif
 }
 
 /* USER CODE END STM32TouchController */
