@@ -20,8 +20,12 @@
 #include <STM32TouchController.hpp>
 #include "ili9341.h"
 #include "xpt2046.h"
+#include "main.h"
+#include <stdio.h>
+#include <string.h>
 
 extern "C" {
+extern UART_HandleTypeDef huart3;
 static void ConvXPTtoILI(uint16_t *x, uint16_t *y)
 {
 	int16_t tx,ty;
@@ -57,6 +61,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
      * By default sampleTouch is called every tick, this can be adjusted by HAL::setTouchSampleRate(int8_t);
      *
      */
+	uint8_t str[20];
 	static uint16_t prevx = GUI_WIDTH;
 	static uint16_t prevy = GUI_HEIGHT;
 	uint16_t intx, inty;
@@ -68,9 +73,12 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 			prevy = inty;
 			x = (int32_t)intx;
 			y = (int32_t)inty;
+			sprintf((char*)str, "%d, %d\n", (int)x, (int)y);
+			HAL_UART_Transmit(&huart3, str, strlen((const char*)str), 1000);
 			return true;
 		}
 	}
+	HAL_UART_Transmit(&huart3, (uint8_t*)"999 999\n", strlen((const char *)"999 999\n"), 1000);
     return false;
 }
 
