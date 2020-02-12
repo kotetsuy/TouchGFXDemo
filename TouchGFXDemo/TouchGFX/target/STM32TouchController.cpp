@@ -78,7 +78,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 			return true;
 		}
 	}
-	HAL_UART_Transmit(&huart3, (uint8_t*)"999 999\n", strlen((const char *)"999 999\n"), 1000);
+	HAL_UART_Transmit(&huart3, (uint8_t*)"999, 999\n", strlen((const char *)"999, 999\n"), 1000);
     return false;
 }
 
